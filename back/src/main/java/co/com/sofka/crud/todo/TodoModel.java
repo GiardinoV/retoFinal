@@ -1,24 +1,26 @@
-package co.com.sofka.crud;
+package co.com.sofka.crud.todo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-@Entity
-public class Todo {
-    @Id
-    @GeneratedValue
+public class TodoModel {
+    private Long listId;
     private Long id;
     private String name;
     private boolean completed;
-    private String groupListId;
 
-    public String getGroupListId() {
-        return groupListId;
+    public TodoModel() {super(); }
+
+    public TodoModel(Long id, String name, boolean completed, Long listId){
+        this.id = id;
+        this.name = name;
+        this.completed = completed;
+        this.listId = listId;
     }
 
-    public void setGroupListId(String groupListId) {
-        this.groupListId = groupListId;
+    public Long getListId() {
+        return listId;
+    }
+
+    public void setListId(Long listId) {
+        this.listId = listId;
     }
 
     public Long getId() {
