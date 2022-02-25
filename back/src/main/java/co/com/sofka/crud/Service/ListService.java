@@ -1,14 +1,12 @@
-package co.com.sofka.crud.list;
+package co.com.sofka.crud.Service;
 
-import co.com.sofka.crud.todo.Todo;
+import co.com.sofka.crud.Entity.Todo;
 import co.com.sofka.crud.todo.TodoModel;
-import co.com.sofka.crud.todo.TodoRepository;
+import co.com.sofka.crud.Repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class ListService implements TodoRepository{

@@ -1,6 +1,7 @@
-package co.com.sofka.crud.list;
+package co.com.sofka.crud.Controller;
 
-import co.com.sofka.crud.todo.Todo;
+import co.com.sofka.crud.Service.ListService;
+import co.com.sofka.crud.Entity.Todo;
 import co.com.sofka.crud.todo.TodoModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

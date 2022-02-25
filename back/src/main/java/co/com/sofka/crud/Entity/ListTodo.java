@@ -1,6 +1,6 @@
-package co.com.sofka.crud.list;
+package co.com.sofka.crud.Entity;
 
-import co.com.sofka.crud.todo.Todo;
+import co.com.sofka.crud.Entity.Todo;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -10,10 +10,15 @@ public class ListTodo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(nullable = false)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Todo> Todos;
+
+    public  ListTodo(){
+    }
 
     public Long getId() {
         return id;
