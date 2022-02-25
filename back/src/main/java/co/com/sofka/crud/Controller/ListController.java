@@ -1,73 +1,61 @@
 package co.com.sofka.crud.Controller;
 
+import co.com.sofka.crud.Entity.ListTodo;
+import co.com.sofka.crud.Repository.ListRepository;
 import co.com.sofka.crud.Service.ListService;
-import co.com.sofka.crud.Entity.Todo;
-import co.com.sofka.crud.todo.TodoModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class ListController {
 
-    private ListService service;
+    @Autowired
+    private ListService listService;
 
     @Autowired
-    public ListController(ListService service){
-        this.service = service;
-    }
+    private ListRepository listRepository;
 
-    @GetMapping(value = "api/todo")
-    public Iterable<Todo> get(){
-        return service.findAll();
-    }
-
-    @GetMapping(value = "api/{id}/todo")
-    public Todo get(@PathVariable("id") Long id){
-        return service.get(id);
-    }
-
+    //Obtener lista
     @GetMapping(value = "api/list")
-    public Iterable<ListModel> allList(){
-        return service.allList();
-    }
-
-    @GetMapping(value = "api/{listId}/list")
-    public Iterable<ListModel> getListId(@PathVariable("listId") Long listId){
-        return service.getListId(listId);
-    }
-
-    @PostMapping(value = "api/todo")
-    public Todo newTodo(@RequestBody Todo todo){
-        if(todo.getName().length() < 2 || todo.getName() == null){
-            throw new RuntimeException("Ingrese un nombre válido");
+    public ResponseEntity<List<ListTodo>> getList(){
+        List<ListTodo> allList = listService.allList();
+        if(allList.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return service.save(todo);
+        return new ResponseEntity<>(allList, HttpStatus.OK);
     }
-    
+
+    //Obtener lista por id
+    @GetMapping(value = "api/{id}/list")
+    public ResponseEntity<ListTodo> getListById(@PathVariable("id") Long id){
+        Optional<ListTodo> _list = listRepository.findById(id);
+        if(_list.isPresent()){
+            return new ResponseEntity<>(_list.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    //Guardar lista
     @PostMapping(value = "api/list")
-    public ListModel newList(@RequestBody ListModel todoList){
-        return service.newList(todoList);
-    }
-
-    /*@PostMapping(value = "api/list/addTodo")
-    public ListModel addTodo(@RequestBody Todo todo){
-        ListTodo listModel = service.save(new ListTodo(todo.setName(todo.getName()),todo.se;));
-        return service.addTodo(todo);
-    }  */
-
-    @PutMapping(value = "api/{listId}/todos")
-    public TodoModel updateById(@PathVariable("listId") Long listId, @RequestBody TodoModel todo){
-        if(todo.getId() != null){
-            return service.updateById(listId, todo);
+    public ResponseEntity<ListTodo> saveList(@RequestBody ListTodo listTodo){
+        try{
+            ListTodo _list = listService.saveList(listTodo);
+            return new ResponseEntity<>(_list, HttpStatus.CREATED);
+        } catch(Exception err){
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-        throw new RuntimeException("No existe el id para actualizar");
     }
 
-    @DeleteMapping(value = "api/{id}")
-    public void deleteById(@PathVariable("id")Long id){
-        service.deleteById(id);
+    @DeleteMapping(value = "api/{id}/list")
+    public void deleteListById(@PathVariable("id")Long id){
+        listService.deleteListById(id);
     }
-
 
 }

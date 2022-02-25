@@ -1,98 +1,30 @@
 package co.com.sofka.crud.Service;
 
+import co.com.sofka.crud.Entity.ListTodo;
 import co.com.sofka.crud.Entity.Todo;
-import co.com.sofka.crud.todo.TodoModel;
-import co.com.sofka.crud.Repository.TodoRepository;
+import co.com.sofka.crud.Repository.ListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
-public class ListService implements TodoRepository{
+public class ListService {
 
     @Autowired
-    private TodoRepository repository;
+    ListRepository listRepository;
 
-    public Todo save(Todo todo){
-        return repository.save(todo);
+    public ArrayList<ListTodo> allList() {
+        return (ArrayList<ListTodo>) listRepository.findAll();
     }
 
-    public Todo get(Long id){
-         return repository.findById(id).orElseThrow();
+    public ListTodo saveList(ListTodo listTodo) {
+        return listRepository.save(listTodo);
     }
 
-    @Override
-    public Iterable<ListModel> allList() {
-        return repository.allList();
+    public void deleteListById(Long id) {
+        listRepository.deleteById(id);
     }
 
-    @Override
-    public Iterable<ListModel> getListId(Long listId) {
-        return repository.getListId(listId);
-    }
 
-    @Override
-    public ListModel newList(ListModel todo) {
-        return repository.newList(todo);
-    }
-
-    public ListModel addTodo(Todo todo) {
-        return ListModel(todo);
-    }
-
-    @Override
-    public TodoModel updateById(Long listId, TodoModel todo) {
-        return null;
-    }
-
-    @Override
-    public <S extends Todo> Iterable<S> saveAll(Iterable<S> iterable) {
-        return null;
-    }
-
-    @Override
-    public Optional<Todo> findById(Long aLong) {
-        return Optional.empty();
-    }
-
-    @Override
-    public boolean existsById(Long aLong) {
-        return false;
-    }
-
-    @Override
-    public Iterable<Todo> findAll() {
-        return null;
-    }
-
-    @Override
-    public Iterable<Todo> findAllById(Iterable<Long> iterable) {
-        return null;
-    }
-
-    @Override
-    public long count() {
-        return 0;
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        repository.deleteById(id);
-    }
-
-    @Override
-    public void delete(Todo todo) {
-
-    }
-
-    @Override
-    public void deleteAll(Iterable<? extends Todo> iterable) {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
-    }
 }
