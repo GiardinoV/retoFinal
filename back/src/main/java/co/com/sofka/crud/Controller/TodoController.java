@@ -1,5 +1,6 @@
 package co.com.sofka.crud.Controller;
 
+import co.com.sofka.crud.DTO.TodoListDTO;
 import co.com.sofka.crud.Entity.ListTodo;
 import co.com.sofka.crud.Entity.Todo;
 import co.com.sofka.crud.Repository.TodoRepository;
@@ -24,12 +25,8 @@ public class TodoController {
 
     //Obtener todos los ToDos
     @GetMapping(value = "api/todo")
-    public ResponseEntity<List<Todo>> getAllTodos(){
-        List<Todo> allTodos = todoService.allTodo();
-        if(allTodos.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(allTodos, HttpStatus.OK);
+    public List<TodoListDTO> getAllTodo(){
+        return todoService.getAllTodoList();
     }
 
     //Obtener ToDos por id
